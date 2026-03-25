@@ -9,12 +9,32 @@
 /// for 10 won: (1) one 10-won, and (2) ten 1-won. The function should return -1
 /// if an errorneous input is given, e.g., when negative amount is given.
 let prob1 amount =
-  failwith "TODO" // REMOVE this line when you implement your own code
+    if amount < 0 then
+        -1
+    else
+        let coins = [500; 100; 50; 10; 1]
+        let dp = Array.create (amount + 1) 0
+        dp.[0] <- 1  // One way to make 0: use no coins
+        
+        for coin in coins do
+            for i in coin .. amount do
+                dp.[i] <- dp.[i] + dp.[i - coin]
+        
+        dp.[amount]
 
 /// Write a function `prob2` that computes GCD (Greatest Common Divisor) of two
 /// given integers. This function should return -1 if both inputs are 0.
 let prob2 a b =
-  failwith "TODO" // REMOVE this line when you implement your own code
+    let maximum = max a b
+    let mutable gcd = 1
+    
+    if a = 0 && b = 0 then
+        -1
+    else
+        for i in 1 .. (maximum / 2) do
+            if a % i = 0 && b % i = 0 then
+                gcd <- i
+        gcd
 
 /// Write a function `prob3` that takes in a string s and an integer n, and
 /// returns a string that repeats s for n times. For example, if "abc" and 3 are
@@ -23,7 +43,14 @@ let prob2 a b =
 /// repeats reversed s for -n times. For example, pow "abc" -3 will return
 /// "cbacbacba".
 let prob3 s n =
-  failwith "TODO" // REMOVE this line when you implement your own code
+    let reversed = System.String(Array.rev (s.ToCharArray()))
+    
+    if n < 0 then
+        String.replicate (abs n) reversed
+    elif n = 0 then
+        ""
+    else
+        String.replicate n s
 
 /// Write a function `prob4` that takes in an unsigned integer n (uint32), and
 /// returns the smallest integral divisor of n that is greater than 1. For
@@ -31,14 +58,25 @@ let prob3 s n =
 /// returns 0 for all error cases, e.g., when the given number is 1u. This
 /// function only considers non-zero numbers as valid inputs.
 let prob4 (n: uint32) =
-  failwith "TODO" // REMOVE this line when you implement your own code
+    if n <= 1u then
+        0u
+    else
+        let sqrt_n = int (sqrt (float n))
+        let mutable result = n
+        for i in 2 .. sqrt_n do
+            if n % (uint32 i) = 0u then
+                result <- uint32 i
+        result
 
 /// Write a function `prob5` that takes in an unsigned integer as input, and
 /// checks if the number is a prime number or not. If the number is prime, then
 /// the function returns true. Otherwise, it returns false. Hint: you can use
 /// the `prob4` function above.
 let prob5 (n: uint32) =
-  failwith "TODO" // REMOVE this line when you implement your own code
+    if n <= 1u then
+        false
+    else
+        prob4 n = n
 
 [<EntryPoint>]
 let main _args =
