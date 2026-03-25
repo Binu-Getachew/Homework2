@@ -14,7 +14,16 @@ let prob1 amount =
 /// Write a function `prob2` that computes GCD (Greatest Common Divisor) of two
 /// given integers. This function should return -1 if both inputs are 0.
 let prob2 a b =
-  failwith "TODO" // REMOVE this line when you implement your own code
+    let maximum = max a b
+    let mutable gcd = 1
+    
+    if a = 0 && b = 0 then
+        -1
+    else
+        for i in 1 .. (maximum / 2) do
+            if a % i = 0 && b % i = 0 then
+                gcd <- i
+        gcd
 
 /// Write a function `prob3` that takes in a string s and an integer n, and
 /// returns a string that repeats s for n times. For example, if "abc" and 3 are
